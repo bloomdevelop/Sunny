@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AccountWizard</class>
+ <widget class="Aero::Wizard" name="AccountWizard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>350</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>New Account Wizard</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="system-users" />
+  </property>
+  <property name="wizardStyle">
+   <enum>QWizard::WizardStyle::NStyles</enum>
+  </property>
+  <widget class="QWizardPage" name="wizardPage1">
+   <property name="title">
+    <string>Welcome</string>
+   </property>
+   <layout class="QVBoxLayout" name="welcomeLayout">
+    <item>
+     <widget class="QLabel" name="welcomeLabel">
+      <property name="text">
+       <string>Press "Next" to continue</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage2">
+   <property name="title">
+    <string>Instances</string>
+   </property>
+   <layout class="QVBoxLayout" name="instancesLayout">
+    <item>
+     <widget class="QLabel" name="instancesLabel">
+      <property name="text">
+       <string>Press "Next" to continue</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="instanceOptionCombo">
+      <property name="editable">
+       <bool>false</bool>
+      </property>
+      <item>
+       <property name="text">
+        <string>Official</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="customInstanceInput">
+      <property name="visible">
+       <bool>false</bool>
+      </property>
+      <property name="placeholderText">
+       <string>https://custom.example</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="LoginOptionsPage" name="wizardPage3">
+   <property name="title">
+    <string>Login Options</string>
+   </property>
+   <layout class="QVBoxLayout" name="loginOptionsLayout">
+    <item>
+     <widget class="QCommandLinkButton" name="normalLogin">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Email &amp; Password</string>
+      </property>
+      <property name="description">
+       <string>Recommended when using custom instance without captcha</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="handoffLogin">
+      <property name="text">
+       <string>Handoff</string>
+      </property>
+      <property name="description">
+       <string>Recommended when using official instance (such as fluxer.app)</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="TerminalWizardPage" name="wizardPage4_emailOption">
+   <property name="title">
+    <string>Login via Email &amp; Password</string>
+   </property>
+   <property name="finalPage">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="emailLayout">
+    <item>
+     <widget class="QLineEdit" name="inputEmail">
+      <property name="placeholderText">
+       <string>Email</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="inputPassword">
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>Password</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="TerminalWizardPage" name="wizardPage4_handoffOption">
+   <property name="title">
+    <string>Login via Handoff</string>
+   </property>
+   <property name="finalPage">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="handoffLayout">
+    <item>
+     <widget class="QLabel" name="todoPlaceholder">
+      <property name="text">
+       <string>TODO: Implement Handoff</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Aero::Wizard</class>
+   <extends>QWizard</extends>
+   <header>AeroQt/wizard.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LoginOptionsPage</class>
+   <extends>QWizardPage</extends>
+   <header>account_wizard.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TerminalWizardPage</class>
+   <extends>QWizardPage</extends>
+   <header>account_wizard.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
