@@ -53,12 +53,28 @@ set(PROJECT_SOURCES
         src/account_wizard.ui
         src/api_client.cpp
         src/api_client.hpp
+        src/channel_tree_model.cpp
+        src/channel_tree_model.hpp
+        src/chat_window.cpp
+        src/chat_window.hpp
+        src/gateway.cpp
+        src/gateway.hpp
         src/handoff_client.cpp
         src/handoff_client.hpp
         src/main.cpp
         src/main_window.cpp
         src/main_window.hpp
         src/main_window.ui
+        src/markdown.cpp
+        src/markdown.hpp
+        src/media_utils.cpp
+        src/media_utils.hpp
+        src/message.cpp
+        src/message.hpp
+        src/message_widget.cpp
+        src/message_widget.hpp
+        src/user_popup.cpp
+        src/user_popup.hpp
         src/websocket.cpp
         src/websocket.hpp
         ${TS_FILES}
