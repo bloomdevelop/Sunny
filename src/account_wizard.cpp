@@ -1,6 +1,6 @@
 #include "account_wizard.hpp"
-#include "api_client.hpp"
 #include "ui_account_wizard.h"
+#include "api_client.hpp"
 
 #include <AeroQt/wizard.h>
 
@@ -92,12 +92,14 @@ AccountWizard::AccountWizard(QWidget *parent)
             updateNextButton();
         }
     );
+
     connect(
         ui->customInstanceInput,
         &QLineEdit::textChanged,
         debounce,
         qOverload<>(&QTimer::start)
     );
+
     connect(
         ui->customInstanceInput,
         &QLineEdit::textChanged,
@@ -145,6 +147,7 @@ AccountWizard::AccountWizard(QWidget *parent)
     };
     ui->wizardPage3->setEmailPageId(idOf(ui->wizardPage4_emailOption));
     ui->wizardPage3->setHandoffPageId(idOf(ui->wizardPage4_handoffOption));
+
     connect(
         ui->normalLogin,
         &QCommandLinkButton::clicked,
@@ -154,6 +157,7 @@ AccountWizard::AccountWizard(QWidget *parent)
             next();
         }
     );
+
     connect(
         ui->handoffLogin,
         &QCommandLinkButton::clicked,
@@ -199,6 +203,7 @@ void AccountWizard::validateViaWellKnown(const QUrl &url)
         m_customInstanceValid = !doc.isNull();
         updateNextButton();
     });
+
     connect(api, &ApiClient::error, this,
             [this, api, expected](const QString &msg) {
         api->deleteLater();
@@ -219,5 +224,6 @@ void AccountWizard::updateNextButton()
         return; // other pages: let QWizard manage the buttons
     const bool custom =
         ui->instanceOptionCombo->currentText() == QLatin1String("Custom");
+
     button(QWizard::NextButton)->setEnabled(!custom || m_customInstanceValid);
 }
