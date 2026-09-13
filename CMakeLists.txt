@@ -43,17 +43,23 @@ find_package(KF6Completion REQUIRED)
 find_package(AeroQt REQUIRED)
 find_package(Qt6Keychain REQUIRED)
 
-set(TS_FILES Sunny_en_US.ts)
+set(TS_FILES Sunny_en_US.ts
+    Sunny_en_US.ts)
 
 set(PROJECT_SOURCES
-        main.cpp
-        main_window.cpp
-        main_window.hpp
-        main_window.ui
-        api_client.hpp api_client.cpp
-        websocket.hpp websocket.cpp
-        account_wizard.hpp account_wizard.cpp
-        account_wizard.ui
+        src/account_manager.cpp
+        src/account_manager.hpp
+        src/account_wizard.cpp
+        src/account_wizard.hpp
+        src/account_wizard.ui
+        src/api_client.cpp
+        src/api_client.hpp
+        src/main.cpp
+        src/main_window.cpp
+        src/main_window.hpp
+        src/main_window.ui
+        src/websocket.cpp
+        src/websocket.hpp
         ${TS_FILES}
 )
 
@@ -61,7 +67,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Sunny
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        account_manager.hpp account_manager.cpp
 )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Sunny APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
