@@ -1,9 +1,10 @@
 #include "account_wizard.hpp"
 #include "ui_account_wizard.h"
+
 #include "api_client.hpp"
+#include "handoff_client.hpp"
 
 #include <AeroQt/wizard.h>
-
 #include <QComboBox>
 #include <QCommandLinkButton>
 #include <QJsonDocument>
@@ -14,8 +15,7 @@
 
 LoginOptionsPage::LoginOptionsPage(QWidget *parent)
     : QWizardPage(parent)
-{
-}
+{}
 
 void LoginOptionsPage::setEmailPageId(int id)
 {
@@ -165,6 +165,7 @@ AccountWizard::AccountWizard(QWidget *parent)
         [this] {
             ui->wizardPage3->selectHandoff();
             next();
+            startHandoff();
         }
     );
 
@@ -179,6 +180,51 @@ AccountWizard::~AccountWizard()
 QUrl AccountWizard::officialInstanceUrl()
 {
     return QUrl(QStringLiteral("https://api.fluxer.app"));
+}
+
+void AccountWizard::startHandoff()
+{
+    if (m_handoff)
+        return;
+
+    m_handoff = new HandoffClient(selectedInstanceUrl(), this);
+
+    connect(m_handoff, &HandoffClient::codeReceived, this,
+            [this](const QString &code, const QDateTime &expiresAt) {
+        Q_UNUSED(expiresAt);
+        ui->handoffCodeLabel->setText(code);
+        ui->handoffStatusLabel->setText(
+            tr("Enter this code on a device where you are already signed in."));
+    });
+
+    connect(m_handoff, &HandoffClient::completed, this,
+            [this](const QString &token, const QString &userId) {
+        Account account;
+        account.instance = selectedInstanceUrl();
+        account.token = token;
+        account.userId = userId;
+        emit accountReady(account);
+        accept();
+    });
+
+    connect(m_handoff, &HandoffClient::expired, this, [this] {
+        ui->handoffStatusLabel->setText(
+            tr("The code expired. Close the wizard and try again."));
+    });
+
+    connect(m_handoff, &HandoffClient::failed, this,
+            [this](const QString &message) {
+        ui->handoffStatusLabel->setText(message);
+    });
+
+    m_handoff->start();
+}
+
+void AccountWizard::done(int result)
+{
+    if (m_handoff)
+        m_handoff->cancel();
+    Aero::Wizard::done(result);
 }
 
 QUrl AccountWizard::selectedInstanceUrl() const

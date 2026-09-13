@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QNetworkRequestFactory>
 #include <QRestAccessManager>
+#include <QByteArray>
 
 class ApiClient : public QObject
 {
@@ -13,6 +14,8 @@ public:
     void getJson(const QString &path);
     void postJson(const QString &path, const QJsonDocument &doc);
     void patchJson(const QString &path, const QJsonDocument &doc);
+    void deleteJson(const QString &path);
+    void setCommonHeader(const QByteArray &name, const QByteArray &value);
 
 signals:
     void jsonReceived(const QJsonDocument &doc);

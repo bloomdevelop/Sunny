@@ -43,8 +43,7 @@ find_package(KF6Completion REQUIRED)
 find_package(AeroQt REQUIRED)
 find_package(Qt6Keychain REQUIRED)
 
-set(TS_FILES Sunny_en_US.ts
-    Sunny_en_US.ts)
+set(TS_FILES Sunny_en_US.ts)
 
 set(PROJECT_SOURCES
         src/account_manager.cpp
@@ -54,6 +53,8 @@ set(PROJECT_SOURCES
         src/account_wizard.ui
         src/api_client.cpp
         src/api_client.hpp
+        src/handoff_client.cpp
+        src/handoff_client.hpp
         src/main.cpp
         src/main_window.cpp
         src/main_window.hpp
@@ -67,7 +68,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Sunny
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-)
+    )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Sunny APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -100,7 +101,10 @@ target_link_libraries(Sunny PRIVATE
 
 # Needed so the UIC-generated ui_account_wizard.h can include account_wizard.hpp
 # (used for the LoginOptionsPage / TerminalWizardPage promoted pages).
-target_include_directories(Sunny PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(Sunny PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

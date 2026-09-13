@@ -1,7 +1,9 @@
 #pragma once
 
-#include <AeroQt/wizard.h>
+#include "account_manager.hpp"
+#include "handoff_client.hpp"
 
+#include <AeroQt/wizard.h>
 #include <QWizardPage>
 
 class QTimer;
@@ -63,10 +65,18 @@ public:
     QUrl selectedInstanceUrl() const;
     static QUrl officialInstanceUrl();
 
+signals:
+    void accountReady(const Account &account);
+
+protected:
+    void done(int result) override;
+
 private:
     void validateViaWellKnown(const QUrl &url);
     void updateNextButton();
+    void startHandoff();
 
+    HandoffClient *m_handoff = nullptr;
     Ui::AccountWizard *ui;
     QTimer *m_debounceTimer = nullptr;
     QNetworkAccessManager *m_nam = nullptr;

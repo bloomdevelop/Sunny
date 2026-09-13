@@ -81,3 +81,31 @@ void ApiClient::patchJson(const QString &path, const QJsonDocument &doc)
     });
 }
 
+/**
+ * @brief Sends an request with DELETE method
+ * @param path
+ */
+void ApiClient::deleteJson(const QString &path)
+{
+    QNetworkRequest req = m_factory.createRequest(path);
+    m_api->deleteResource(req, this, [this](QRestReply &reply) {
+        if (auto json = reply.readJson())
+            emit jsonReceived(*json);
+        else if (reply.isSuccess())
+            emit jsonReceived(QJsonDocument{});
+        else
+            emit error(reply.errorString());
+    });
+}
+
+/**
+ * @brief Replace or appends new headers
+ * @param name
+ * @param value
+ */
+void ApiClient::setCommonHeader(const QByteArray &name, const QByteArray &value)
+{
+    QHttpHeaders h = m_factory.commonHeaders();
+    h.replaceOrAppend(name, value);
+    m_factory.setCommonHeaders(h);
+}
